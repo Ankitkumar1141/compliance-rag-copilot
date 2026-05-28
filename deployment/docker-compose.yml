@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+      target: backend
+    container_name: compliance-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - LLM_MODEL=${LLM_MODEL:-llama3}
+      - EMBEDDING_PROVIDER=${EMBEDDING_PROVIDER:-local}
+      - CHROMA_DB_PATH=/app/data/embeddings
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - HF_API_KEY=${HF_API_KEY:-}
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2:-false}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY:-}
+      - API_BEARER_TOKEN=${API_BEARER_TOKEN:?API_BEARER_TOKEN must be set in .env}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
+    volumes:
+      - ../data:/app/data
+      - ../logs:/app/logs
+    networks:
+      - compliance-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+      target: frontend
+    container_name: compliance-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - API_BEARER_TOKEN=${API_BEARER_TOKEN:?API_BEARER_TOKEN must be set in .env}
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - compliance-net
+    restart: unless-stopped
+
+networks:
+  compliance-net:
+    driver: bridge

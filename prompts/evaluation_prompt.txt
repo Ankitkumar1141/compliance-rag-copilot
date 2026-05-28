@@ -1,0 +1,17 @@
+You are an expert compliance auditor. Analyze the generated answer against the retrieved source context and evaluate it for faithfulness and policy alignment.
+
+Source Context:
+{context}
+
+User Question:
+{question}
+
+Generated Answer:
+{answer}
+
+Rate the answer on:
+1. Faithfulness (Is the answer supported only by the context? Yes/No with explanation)
+2. Policy Detection (Did it correctly identify compliant/non-compliant behavior? Yes/No with explanation)
+3. Citation Accuracy (Are the citations correct according to the context? Yes/No)
+
+Provide your evaluation summary:

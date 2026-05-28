@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+pip-wheel-metadata/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment / Secrets
+.env
+*.env.local
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ChromaDB / embeddings (large local DB — don't commit)
+data/embeddings/
+
+# Processed caches (can be regenerated)
+data/processed_docs/chunks.json
+data/processed_docs/ragas_results.json
+
+# Logs
+logs/
+*.log
+
+# Pytest cache
+.pytest_cache/
+.cache/
+
+# MyPy / Type checking
+.mypy_cache/
+.dmypy.json
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Model cache (sentence-transformers downloads)
+.cache/huggingface/
