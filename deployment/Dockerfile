@@ -6,7 +6,7 @@ WORKDIR /app
 # Install OS-level dependencies for PDF/DOCX parsing and health checks
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libgl1-mesa-glx \
+    libgl1 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
